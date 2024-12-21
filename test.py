@@ -28,12 +28,12 @@ def insert_example_data():
         cursor.execute("SELECT bus_id FROM Buses WHERE bus_name = 'City Express'")
         bus_id = cursor.fetchone()[0]
         
-        # Insert bus stops
+        # Insert bus stops with charge information
         cursor.execute('''
-        INSERT INTO Stops (bus_id, stop_name, stop_order, departure_time)
-        VALUES (?, 'City A', 1, '2024-12-21 08:00:00'),
-               (?, 'City B', 2, '2024-12-21 09:00:00'),
-               (?, 'City C', 3, '2024-12-21 10:00:00')
+        INSERT INTO Stops (bus_id, stop_name, stop_order, departure_time, charge)
+        VALUES (?, 'City A', 1, '2024-12-21 08:00:00', 0.0),
+               (?, 'City B', 2, '2024-12-21 09:00:00', 10.0),
+               (?, 'City C', 3, '2024-12-21 10:00:00', 15.0)
         ''', (bus_id, bus_id, bus_id))
 
         # Commit changes to save bus and stops

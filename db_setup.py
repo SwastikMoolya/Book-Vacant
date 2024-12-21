@@ -1,4 +1,3 @@
-# db_setup.py
 import sqlite3
 
 def create_tables():
@@ -24,7 +23,7 @@ def create_tables():
     );
     ''')
 
-    # Table to store bus details (removed start_city and destination_city)
+    # Table to store bus details
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS Buses (
         bus_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,7 +33,7 @@ def create_tables():
     );
     ''')
 
-    # Table to store bus stops with departure_time
+    # Table to store bus stops with departure_time and charges for each stop (to the next stop)
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS Stops (
         stop_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,6 +41,7 @@ def create_tables():
         stop_name TEXT NOT NULL,
         stop_order INTEGER NOT NULL,
         departure_time TIMESTAMP NOT NULL,
+        charge REAL NOT NULL,  -- Charge from this stop to the next stop
         FOREIGN KEY(bus_id) REFERENCES Buses(bus_id)
     );
     ''')
@@ -58,8 +58,8 @@ def create_tables():
         reservation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(passenger_id) REFERENCES Users(user_id),
         FOREIGN KEY(bus_id) REFERENCES Buses(bus_id)
-);
-''')
+    );
+    ''')
 
     # Commit changes and close the connection
     conn.commit()
